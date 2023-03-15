@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <!-- Define custom levels before using them for filtering below. -->
+    <CustomLevels>
+        <CustomLevel name="DIAG" intLevel="10" />
+        <CustomLevel name="NOTICE" intLevel="450" />
+        <CustomLevel name="VERBOSE" intLevel="550" />
+    </CustomLevels>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-7level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="DIAG" onMatch="DENY" onMismatch="ACCEPT" />
+            </Filters>
+        </Console>
+
+        <File name="MyFile" fileName="logs/app.log">
+            <PatternLayout pattern="%d %-7level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="DIAG" onMatch="ACCEPT"/>
+            </Filters>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <!-- Only events at DIAG level or more specific are sent to the console. -->
+            <AppenderRef ref="Console" level="info" />
+            <AppenderRef ref="MyFile" level="diag" />
+        </Root>
+    </Loggers>
+</Configuration>

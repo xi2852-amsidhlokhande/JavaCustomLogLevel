@@ -1,8 +1,9 @@
 package com.amsidh.mvc;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class JavaCustomLogLevelApplication implements CommandLineRunner {
 
-    final Logger logger = LogManager.getLogger();
+    public static final Marker DB_MSG = MarkerFactory.getMarker("LOGTODB");
+    final Logger logger = LoggerFactory.getLogger(JavaCustomLogLevelApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(JavaCustomLogLevelApplication.class, args);
@@ -19,9 +21,9 @@ public class JavaCustomLogLevelApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.log(Level.getLevel("VERBOSE"), "a verbose message"); // use the custom VERBOSE level
+
         // Create and use a new custom level "DIAG".
-        logger.log(Level.getLevel("DIAG"), "a diagnostic message");
-        logger.log(Level.getLevel("DIAG"), "another diagnostic message");
+        logger.info("This is sample info message will be displayed on console only");
+        logger.info(DB_MSG, "This is sample log to database message will be logged inside db file only");
     }
 }
